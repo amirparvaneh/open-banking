@@ -2,6 +2,7 @@ package com.adddeveloper.finalresttemplate.api;
 
 
 import com.adddeveloper.finalresttemplate.entity.Card;
+import com.adddeveloper.finalresttemplate.entity.CardDest;
 import com.adddeveloper.finalresttemplate.entity.CreateCard;
 import com.adddeveloper.finalresttemplate.entity.DebitCart;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -101,7 +101,8 @@ public class Controller {
         headers.set("Authorization", "Bearer "+accessToken);
 
         HttpEntity<String> entity = new HttpEntity<>(request,headers);
-        return restTemplate.postForObject(urlSandBox0, entity, String.class);
+        String result = restTemplate.postForObject(urlSandBox0, entity, String.class);
+        return result;
     }
     @PostMapping("/sandbox1")
     public DebitCart getCardInSandBox(@RequestBody String request){
@@ -114,4 +115,38 @@ public class Controller {
         DebitCart result = restTemplate.postForObject(urlSandBox1, entity, DebitCart.class);
         return result;
     }
+
+
+    @PostMapping("/sandbox2")
+    public List<DebitCart> getCardInSandBoxByArray(@RequestBody List<CardDest> request){
+        String urlSandBox2 = "https://sandbox.parsian-bank.ir/api/channelServices/1.0/getCardOwner";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer "+accessToken);
+
+        HttpEntity<List<CardDest>> entity = new HttpEntity<>(request,headers);
+        DebitCart result = restTemplate.postForObject(urlSandBox2, entity, DebitCart.class);
+        return Arrays.asList(result);
+    }
+    @PostMapping("/sandbox3")
+    public String getCardInSandByResponsEntity(@RequestBody String request){
+        String urlSandBox3 = "https://sandbox.parsian-bank.ir/api/channelServices/1.0/getCardOwner";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer "+accessToken);
+
+        ResponseEntity<String> response = restTemplate.postForEntity(urlSandBox3+request, request, String.class);
+        HttpStatus status = response.getStatusCode();
+        String result = response.getBody();
+        return result;
+//        HttpEntity<String> entity = new HttpEntity<>(request,headers);
+//        ResponseEntity<> cardDebit= restTemplate.postForObject(urlSandBox3, entity, DebitCart.class);
+//        return result;
+    }
+
+
+
+    //tomorrow we are going for OAuth2 ->
+
+
 }
