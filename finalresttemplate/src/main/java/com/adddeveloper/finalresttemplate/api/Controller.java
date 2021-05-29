@@ -25,6 +25,7 @@ public class Controller {
     public List<Card> getResponse() {
 
         String theUrl = "https://jsonplaceholder.typicode.com/todos";
+       // String theUrl22 = "https://sandbox.parsian-bank.ir/api/channelServices/1.0/getCardOwner";
         ResponseEntity<List<Card>> response = restTemplate.exchange(theUrl, HttpMethod.GET,
                 null, new ParameterizedTypeReference<List<Card>>() {
                 });
@@ -55,7 +56,7 @@ public class Controller {
         String url4 = "https://jsonplaceholder.typicode.com/todos/" + id;
         return this.restTemplate.getForObject(url4, Card.class);
     }
-    
+
     @PostMapping("/create")
     public Card createCard(@RequestBody CreateCard requestBodyCard){
         String theUrl3 = "https://jsonplaceholder.typicode.com/todos";
@@ -64,6 +65,15 @@ public class Controller {
                 HttpMethod.POST, requestCard, Card.class);
         return response3.getBody();
 
+    }
+    //should use query in this method->
+    @PostMapping("/postOneCard")
+    public Card getting(@RequestBody int id){
+        String theUrl5 = "https://jsonplaceholder.typicode.com/todos/"+id;
+        HttpEntity<Integer> requestCard = new HttpEntity<>(id);
+        ResponseEntity<Card> cardResponse = restTemplate.exchange(theUrl5,HttpMethod.POST,requestCard,
+                Card.class);
+        return cardResponse.getBody();
     }
 
 
@@ -77,5 +87,13 @@ public class Controller {
             response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
         return response;
+    }
+    
+
+    @PostMapping("/sandbox")
+    public Object getPage(@RequestBody Object request){
+        String urlSandBox = "https://sandbox.parsian-bank.ir/api/channelServices/1.0/getCardOwner";
+        Object object = restTemplate.postForObject(urlSandBox,request,Object.class);
+        return object;
     }
 }
