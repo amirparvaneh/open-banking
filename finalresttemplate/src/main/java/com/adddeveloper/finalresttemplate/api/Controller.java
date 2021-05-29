@@ -3,6 +3,7 @@ package com.adddeveloper.finalresttemplate.api;
 
 import com.adddeveloper.finalresttemplate.entity.Card;
 import com.adddeveloper.finalresttemplate.entity.CreateCard;
+import com.adddeveloper.finalresttemplate.entity.DebitCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -10,12 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api2")
 public class Controller {
 
+
+    private static final String accessToken= "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiI1OTM5OTM0Mjc4OTU0MTg2MCIsInNjb3BlIjpbImNhcmRUcmFuc2ZlcldpdGhNb2JpbGVObyIsImdldENhcmRPd25lciJdLCJjaGFubmVsVHlwZSI6IlNPRlRXQVJFX0FHRU5UIiwiaXNEaXJlY3REZWJpdCI6ZmFsc2UsImV4cCI6MTYyMjg5MzU2MywiYnVzc2luZXNzQnJhbmROYW1lIjoiZ2hvcmJhbmkiLCJqdGkiOiJiYjE1NjU4Mi05YzBmLTRlNTQtOGNjZS0xNjU0MThjYzY0YzYiLCJjdXN0b21lck5vIjoiNTkzOTkzNDI3ODk1NDE4NjAiLCJjbGllbnRfaWQiOiI1OTM5OTM0Mjc4OTU0MTg2MCIsInVzZXJuYW1lIjoiNTkzOTkzNDI3ODk1NDE4NjAifQ.GUHGcxrledBC0yaB2oyrWeR3qnfpcflhrzEfYWwXmQQwRbzT8s6wsFNVxdl24a1j_jgCh6oRuSOBC3ofa30C4skOLG9qfVc-2wJzq3_5KCv8gfAR1yXmteGsbEtAFCVhX1IWnX30RBeCPDoxyXdah3BwaS_eX4HiWtoA4hhCyRPy-hnGNCL1lMdB2t3f3PkVJ4177RsrXKmyDXNDzxWSNDUAn_jCCswUjl8neeuO8NO_u9rMaf6-qeGuh-nfjJoHb7rbz-cQDcdl3nxBiJYxhdqDZgEbnj6b04MdCLQheC_jq8DmRwV6EX6MsCwf2CehrytWX1dIeor4kLAFUNla3Q";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -91,14 +95,23 @@ public class Controller {
 
     @PostMapping("/sandbox")
     public String getPage(@RequestBody String request){
-        String accessToken ="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiI1OTM5OTM0Mjc4OTU0MTg2MCIsInNjb3BlIjpbImNhcmRUcmFuc2ZlcldpdGhNb2JpbGVObyIsImdldENhcmRPd25lciJdLCJjaGFubmVsVHlwZSI6IlNPRlRXQVJFX0FHRU5UIiwiaXNEaXJlY3REZWJpdCI6ZmFsc2UsImV4cCI6MTYyMjg5MzU2MywiYnVzc2luZXNzQnJhbmROYW1lIjoiZ2hvcmJhbmkiLCJqdGkiOiJiYjE1NjU4Mi05YzBmLTRlNTQtOGNjZS0xNjU0MThjYzY0YzYiLCJjdXN0b21lck5vIjoiNTkzOTkzNDI3ODk1NDE4NjAiLCJjbGllbnRfaWQiOiI1OTM5OTM0Mjc4OTU0MTg2MCIsInVzZXJuYW1lIjoiNTkzOTkzNDI3ODk1NDE4NjAifQ.GUHGcxrledBC0yaB2oyrWeR3qnfpcflhrzEfYWwXmQQwRbzT8s6wsFNVxdl24a1j_jgCh6oRuSOBC3ofa30C4skOLG9qfVc-2wJzq3_5KCv8gfAR1yXmteGsbEtAFCVhX1IWnX30RBeCPDoxyXdah3BwaS_eX4HiWtoA4hhCyRPy-hnGNCL1lMdB2t3f3PkVJ4177RsrXKmyDXNDzxWSNDUAn_jCCswUjl8neeuO8NO_u9rMaf6-qeGuh-nfjJoHb7rbz-cQDcdl3nxBiJYxhdqDZgEbnj6b04MdCLQheC_jq8DmRwV6EX6MsCwf2CehrytWX1dIeor4kLAFUNla3Q";
-        String urlSandBox = "https://sandbox.parsian-bank.ir/api/channelServices/1.0/getCardOwner";
+        String urlSandBox0 = "https://sandbox.parsian-bank.ir/api/channelServices/1.0/getCardOwner";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer "+accessToken);
 
-        HttpEntity<String> entity = new HttpEntity<String>(request,headers);
-        String result = restTemplate.postForObject(urlSandBox, entity, String.class);
+        HttpEntity<String> entity = new HttpEntity<>(request,headers);
+        return restTemplate.postForObject(urlSandBox0, entity, String.class);
+    }
+    @PostMapping("/sandbox1")
+    public DebitCart getCardInSandBox(@RequestBody String request){
+        String urlSandBox1 = "https://sandbox.parsian-bank.ir/api/channelServices/1.0/getCardOwner";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer "+accessToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(request,headers);
+        DebitCart result = restTemplate.postForObject(urlSandBox1, entity, DebitCart.class);
         return result;
     }
 }
