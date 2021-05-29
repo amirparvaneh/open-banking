@@ -88,12 +88,17 @@ public class Controller {
         }
         return response;
     }
-    
 
     @PostMapping("/sandbox")
-    public Object getPage(@RequestBody Object request){
+    public String getPage(@RequestBody String request){
+        String accessToken ="eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiI1OTM5OTM0Mjc4OTU0MTg2MCIsInNjb3BlIjpbImNhcmRUcmFuc2ZlcldpdGhNb2JpbGVObyIsImdldENhcmRPd25lciJdLCJjaGFubmVsVHlwZSI6IlNPRlRXQVJFX0FHRU5UIiwiaXNEaXJlY3REZWJpdCI6ZmFsc2UsImV4cCI6MTYyMjg5MzU2MywiYnVzc2luZXNzQnJhbmROYW1lIjoiZ2hvcmJhbmkiLCJqdGkiOiJiYjE1NjU4Mi05YzBmLTRlNTQtOGNjZS0xNjU0MThjYzY0YzYiLCJjdXN0b21lck5vIjoiNTkzOTkzNDI3ODk1NDE4NjAiLCJjbGllbnRfaWQiOiI1OTM5OTM0Mjc4OTU0MTg2MCIsInVzZXJuYW1lIjoiNTkzOTkzNDI3ODk1NDE4NjAifQ.GUHGcxrledBC0yaB2oyrWeR3qnfpcflhrzEfYWwXmQQwRbzT8s6wsFNVxdl24a1j_jgCh6oRuSOBC3ofa30C4skOLG9qfVc-2wJzq3_5KCv8gfAR1yXmteGsbEtAFCVhX1IWnX30RBeCPDoxyXdah3BwaS_eX4HiWtoA4hhCyRPy-hnGNCL1lMdB2t3f3PkVJ4177RsrXKmyDXNDzxWSNDUAn_jCCswUjl8neeuO8NO_u9rMaf6-qeGuh-nfjJoHb7rbz-cQDcdl3nxBiJYxhdqDZgEbnj6b04MdCLQheC_jq8DmRwV6EX6MsCwf2CehrytWX1dIeor4kLAFUNla3Q";
         String urlSandBox = "https://sandbox.parsian-bank.ir/api/channelServices/1.0/getCardOwner";
-        Object object = restTemplate.postForObject(urlSandBox,request,Object.class);
-        return object;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer "+accessToken);
+
+        HttpEntity<String> entity = new HttpEntity<String>(request,headers);
+        String result = restTemplate.postForObject(urlSandBox, entity, String.class);
+        return result;
     }
 }
