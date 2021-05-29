@@ -11,8 +11,8 @@ import java.util.Optional;
 public class CardServiceImp implements CardService {
     private CardRepo cardRep;
     @Autowired
-    public CardServiceImp(CardRepo thecardRep){
-        cardRep = thecardRep;
+    public CardServiceImp(CardRepo theCardRep){
+        this.cardRep = theCardRep;
     }
     @Override
     public List<Card> findAll() {
